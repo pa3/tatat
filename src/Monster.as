@@ -5,6 +5,8 @@ import flash.geom.Vector3D;
 import net.flashpunk.Entity;
 import net.flashpunk.graphics.Image;
 
+import types.SmashedMonster;
+
 public class Monster extends Entity{
 
     private static var monster1PixelsMap:Vector.<int> = Vector.<int>(
@@ -94,12 +96,9 @@ public class Monster extends Entity{
         return _positionOnTape;
     }
 
-
-    override public function removed():void {
-        super.removed();
-        for each (var aBlock:Block in blocks) {
-            aBlock.startFalling(new Vector3D(Math.random()*30-15,Math.random()*4-10,Math.random()*5-2));
-        }
+    public function breakApart():SmashedMonster {
+        return new SmashedMonster(new Figure(), blocks);
     }
+
 }
 }

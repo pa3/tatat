@@ -15,7 +15,7 @@ public class Block extends Entity{
     private var position:Vector3D;
     private var velocity:Vector3D = new Vector3D();
     private var _movement:Vector3D = new Vector3D();
-    private const GRAVITY:Number = 10;
+    private const GRAVITY:Number = 20;
 
     [Embed(source="/resources/red_block.png")]
     private static var RedBlockImage:Class;
