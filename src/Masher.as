@@ -1,6 +1,8 @@
 package {
 import flash.geom.Vector3D;
 
+import mx.printing.FlexPrintJob;
+
 import net.flashpunk.Entity;
 import net.flashpunk.FP;
 import net.flashpunk.graphics.Image;
@@ -25,7 +27,9 @@ public class Masher extends Entity {
     private var _monstersHolder:TatatWorld;
 
     private var _monsterToSmash:Monster;
-    private var _movingDownTimer:int;
+    private var _movingDownTimer:Number;
+    
+    private var _monsterDestroyed:Boolean = false;
 
     public function Masher(monstersHolder:TatatWorld) {
         _monstersHolder = monstersHolder;
@@ -39,8 +43,9 @@ public class Masher extends Entity {
             state = MasherState.MOVING_DOWN;
             currentSpeed = MOVE_DOWN_INITIAL_VELOCITY;
             _movingDownTimer = 0;
+            _monsterToSmash = monsterToSmash;
+            _monsterDestroyed = false;
         }
-        _monsterToSmash = monsterToSmash;
     }
 
 
@@ -73,16 +78,17 @@ public class Masher extends Entity {
     }
 
     private function smashMonster():void {
+        _monsterDestroyed = true;
         var smashedMonster:SmashedMonster = _monsterToSmash.breakApart();
         _monstersHolder.addFigure(smashedMonster.figure);
         _monstersHolder.removeMonster(_monsterToSmash);
         for each (var aBlock:Block in smashedMonster.splinters) {
-            aBlock.startFalling(new Vector3D(Math.random() * 1 - 2, Math.random() * 1 - 2, Math.random() * 1 - 2));
+            aBlock.startFalling(new Vector3D(Math.random() * 2 - 4, Math.random() * 1 - 2, Math.random() * 1 - 2));
         }
     }
 
     private function isTimeToSmash():Boolean {
-        return _movingDownTimer > 0.3;
+        return _movingDownTimer > 0.3 && !_monsterDestroyed;
     }
 }
 }

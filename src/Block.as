@@ -12,7 +12,7 @@ public class Block extends Entity{
 
     private var camera:Camera = null;
 
-    private var position:Vector3D;
+    private var _position:Vector3D;
     private var velocity:Vector3D = new Vector3D();
     private var _movement:Vector3D = new Vector3D();
     private const GRAVITY:Number = 20;
@@ -42,7 +42,7 @@ public class Block extends Entity{
     }
 
     public function Block(skin:Image, boardX:int, boardY:int, boardZ:int) {
-        this.position = new Vector3D(boardX, boardY, boardZ, 0);
+        _position = new Vector3D(boardX, boardY, boardZ, 0);
         graphic = skin;
         camera = TatatWorld._camera;
     }
@@ -60,14 +60,14 @@ public class Block extends Entity{
                 _movement.y = velocity.y;
                 _movement.z = velocity.z;
                 _movement.scaleBy(FP.elapsed);
-                position = position.add(_movement);
+                _position = position.add(_movement);
                 break;
         }
 
         
         var cameraSpacePosition:Vector3D = camera.worldPositionToScreenPoint(position);
         x = cameraSpacePosition.x + 235;
-        y = cameraSpacePosition.y + 95;
+        y = cameraSpacePosition.y + 99;
 
         // closest blocks should be drawn last
         layer = -cameraSpacePosition.z;
@@ -76,6 +76,10 @@ public class Block extends Entity{
 
     public function setBoardZ(z:int):void {
         position.z = z;
+    }
+
+    public function get position():Vector3D {
+        return _position;
     }
 
     public function startFalling(newVelocity:Vector3D):void {

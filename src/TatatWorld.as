@@ -1,21 +1,24 @@
 package {
 import net.flashpunk.FP;
 import net.flashpunk.World;
+import net.flashpunk.utils.Input;
+import net.flashpunk.utils.Key;
 
 public class TatatWorld extends World {
 
     public static var _camera:Camera = new Camera();
     private var _monsters:Vector.<Monster> = new Vector.<Monster>();
-    private var _figures:Vector.<Figure> = new Vector.<Figure>();
     private var _monstersToDelete:Vector.<Monster> = new Vector.<Monster>();
     private var _monstersToAdd:Vector.<Monster> = new Vector.<Monster>();
-    private var _figuresToDelete:Vector.<Figure> = new Vector.<Figure>();
-    private var _figuresToAdd:Vector.<Figure> = new Vector.<Figure>();
 
     private var _masher:Masher;
 
     private var _tapeRollTimer:Number = 0.0;
-    private const TAPE_ROLL_DELAY:Number = 0.5;
+    private const TAPE_ROLL_DELAY:Number = 0.1;
+
+    private var _currentFigure:Figure;
+
+    private var _blocksOnBoard:Vector.<Block>;
 
 
     public function TatatWorld() {
@@ -43,8 +46,26 @@ public class TatatWorld extends World {
     override public function update():void {
         super.update();
         addAndInitNewMonsters();
+        applyInputs();
         rollTape();
         getRidOfDeadMonsters();
+    }
+
+    private function applyInputs():void {
+        if (_currentFigure) {
+            if (Input.pressed(Key.LEFT)) {
+                _currentFigure.moveLeft();
+            }
+            if (Input.pressed(Key.RIGHT)) {
+                _currentFigure.moveRight();
+            }
+            if (Input.pressed(Key.DOWN)) {
+                _currentFigure.moveDown();
+            }
+            if (Input.pressed(Key.UP)) {
+                _currentFigure.moveUp();
+            }
+        }
     }
 
     private function addAndInitNewMonsters():void {
@@ -76,12 +97,18 @@ public class TatatWorld extends World {
                     _masher.smash(m);
                 }
             }
+//            if (_currentFigure)
+//                _currentFigure.moveDown();
         }
     }
 
     public function addFigure(f:Figure):void {
+        _currentFigure = f;
         add(f);
-        _figures.push(f);
+        _currentFigure.moveDown();
+        _currentFigure.moveDown();
+        _currentFigure.moveLeft();
+        _currentFigure.moveLeft();
     }
 
 }

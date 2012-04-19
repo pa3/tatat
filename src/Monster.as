@@ -71,8 +71,8 @@ public class Monster extends Entity{
     public function Monster(width:int, height:int, pixelsMap:Vector.<int>, color:BlockColor) {
         for (var i:int = 0; i < width; i++) {
             for (var j:int = 0; j < height; j++) {
-                if (pixelsMap[i+j*width] != 0) {
-                    blocks.push(Block.createBlock(color, i, j, 0));
+                if (pixelsMap[i*width+j] != 0) {
+                    blocks.push(Block.createBlock(color, j, i, 0));
                 }
             }
         }
@@ -97,7 +97,8 @@ public class Monster extends Entity{
     }
 
     public function breakApart():SmashedMonster {
-        return new SmashedMonster(new Figure(), blocks);
+        var figureBlocks:Vector.<Block> = blocks.splice(21, 4);
+        return new SmashedMonster(new Figure(figureBlocks), blocks);
     }
 
 }

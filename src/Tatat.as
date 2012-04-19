@@ -4,7 +4,7 @@ import flash.display.Sprite;
 import net.flashpunk.Engine;
 import net.flashpunk.FP;
 
-[SWF(width="640", height="800", backgroundColor="000000")]
+[SWF(width="320", height="400", backgroundColor="000000")]
 public class Tatat extends Engine{
     public function Tatat() {
         super(320,400,60,false);
