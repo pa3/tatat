@@ -1,5 +1,6 @@
 package {
 import flash.geom.Matrix3D;
+import flash.geom.Point;
 import flash.geom.Vector3D;
 
 import mx.printing.FlexPrintJob;
@@ -66,16 +67,25 @@ public class Block extends Entity{
 
         
         var cameraSpacePosition:Vector3D = camera.worldPositionToScreenPoint(position);
-        x = cameraSpacePosition.x + 235;
-        y = cameraSpacePosition.y + 99;
+        x = cameraSpacePosition.x + 238;
+        y = cameraSpacePosition.y + 94;
 
         // closest blocks should be drawn last
         layer = -cameraSpacePosition.z;
 
     }
 
-    public function setBoardZ(z:int):void {
+    public function setTapePosition(z:int):void {
         position.z = z;
+    }
+    
+    public function setBoardPosition(x:int,  y:int):void {
+        position.x = x+2;
+        position.y = 22-y;
+        FP.log(y);
+    }
+    public function getBoardPosition():Point {
+        return new Point(position.x-2,22 - position.y);
     }
 
     public function get position():Vector3D {

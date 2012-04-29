@@ -104,6 +104,48 @@ public class Camera extends Entity{
             zScale-=0.0005;
         }
 
+
+
+        var up:Vector3D = new Vector3D(Math.sin(roll), -Math.cos(roll), Math.sin(roll), 0);
+        var forward:Vector3D = looksAt.subtract(position);
+        forward.normalize();
+        var right:Vector3D = up.crossProduct(forward);
+        right.normalize();
+        up =  right.crossProduct(forward);
+        up.normalize();
+
+        var rotationMatrix:Matrix3D = new Matrix3D(Vector.<Number>(
+                [
+                    right.x, right.y, right.z, 0,
+                    up.x, up.y,  up.z, 0,
+                    forward.x, forward.y,  forward.z, 0,
+                    0, 0, 0, 1
+                ]
+        ));
+
+        var transitionMatrix:Matrix3D = new Matrix3D(Vector.<Number>(
+                [
+                    1, 0, 0, -position.x,
+                    0, 1, 0, -position.y,
+                    0, 0, 1, -position.z,
+                    0, 0, 0, 1
+                ]
+        ));
+
+        var scaleMatrix:Matrix3D = new Matrix3D(Vector.<Number>(
+                [
+                    xScale, 0, 0, 0,
+                    0, yScale, 0, 0,
+                    0, 0, zScale, 0,
+                    0, 0, 0, 1
+                ]
+        ));
+
+        world2ScreenMatrix = rotationMatrix.clone();
+        world2ScreenMatrix.prepend(transitionMatrix);
+        world2ScreenMatrix.append(scaleMatrix);
+        world2ScreenMatrix.invert();
+
         //FP.log(position.toString() + "," + xScale + "," + yScale + "," + zScale);
 
     }

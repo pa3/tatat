@@ -17,9 +17,9 @@ public class Masher extends Entity {
     private var state:MasherState = MasherState.WAITING;
     private var currentSpeed:Number = 0.0;
 
-    private const MOVE_DOWN_INITIAL_VELOCITY:Number = 100;
-    private const MOVE_DOWN_ACCELERATION:Number = 1000;
-    private const MOVE_UP_VELOCITY:Number = -50;
+    private const MOVE_DOWN_INITIAL_VELOCITY:Number = 500;
+    private const MOVE_DOWN_ACCELERATION:Number = 5000;
+    private const MOVE_UP_VELOCITY:Number = -250;
 
     private const BOTTOM_POSITION_Y:int = 40;
     private const UPPER_POSITION_Y:int = -50;
@@ -80,15 +80,16 @@ public class Masher extends Entity {
     private function smashMonster():void {
         _monsterDestroyed = true;
         var smashedMonster:SmashedMonster = _monsterToSmash.breakApart();
-        _monstersHolder.addFigure(smashedMonster.figure);
-        _monstersHolder.removeMonster(_monsterToSmash);
+        Registry.board.addFigure(smashedMonster.figure);
+        Registry.tape.removeMonster(_monsterToSmash);
         for each (var aBlock:Block in smashedMonster.splinters) {
-            aBlock.startFalling(new Vector3D(Math.random() * 2 - 4, Math.random() * 1 - 2, Math.random() * 1 - 2));
+            aBlock.startFalling(new Vector3D(Math.random() * 2 - 1, Math.random() * 1 + 12, Math.random() * 1 - 2));
         }
     }
 
     private function isTimeToSmash():Boolean {
-        return _movingDownTimer > 0.3 && !_monsterDestroyed;
+        // TODO: get rid of time and user masher position instead
+        return _movingDownTimer > 0.1 && !_monsterDestroyed;
     }
 }
 }
