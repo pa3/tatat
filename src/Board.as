@@ -38,9 +38,8 @@ public class Board  extends Entity{
         if (y*WIDTH+x > WIDTH*HEIGHT) {
             return false;
         }
-        return (_blocks[WIDTH*x+y] != null);
+        return (_blocks[WIDTH*y+x] == null);
     }
-
 
     override public function update():void {
         super.update();

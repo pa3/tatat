@@ -1,12 +1,7 @@
 package {
 import flash.geom.Matrix;
 import flash.geom.Point;
-import flash.geom.Point;
-
-import flashx.textLayout.operations.FlowOperation;
-
 import net.flashpunk.Entity;
-import net.flashpunk.FP;
 
 public class Figure extends Entity {
 
@@ -15,7 +10,6 @@ public class Figure extends Entity {
     private var _blocksRelativePositions:Vector.<Point> = new Vector.<Point>();
     private var _pivotBlockPosition:Point = new Point();
 
-
     private var _rotationMatrix:Matrix = new Matrix();
     private var _moveRightMatrix:Matrix = new Matrix();
     private var _moveLeftMatrix:Matrix = new Matrix();
@@ -23,8 +17,8 @@ public class Figure extends Entity {
 
     public function Figure(blocks:Vector.<Block>, pivotBlock:Block) {
         _blocks = blocks;
-        _pivotBlockPosition.x = 3;//pivotBlock.position.x;
-        _pivotBlockPosition.y = 13;//pivotBlock.position.y;
+        _pivotBlockPosition.x = 3;
+        _pivotBlockPosition.y = 13;
 
         for each (var b:Block in _blocks) {
             _blocksRelativePositions.push(new Point(b.position.x - pivotBlock.position.x, b.position.y - pivotBlock.position.y));
@@ -100,14 +94,11 @@ public class Figure extends Entity {
             if (pivot.y + aPosition.y < 0) {
                 return false;
             }
-            
-            if (!Registry.board.isPlaceFree(int(pivot.x + aPosition.x),int(pivot.y + aPosition.y))) {
+            if (!Registry.board.isPlaceFree(int(pivot.x + aPosition.x), int(pivot.y + aPosition.y))) {
                 return false;
             }
         }
         return true;
     }
-
-
 }
 }

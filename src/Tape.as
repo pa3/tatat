@@ -74,7 +74,7 @@ public class Tape extends Entity {
 
 
     public function spawnMonster():void {
-
+        addMonster(Monster.createMonsterOfType1());
     }
 }
 }

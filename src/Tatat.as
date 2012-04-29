@@ -11,7 +11,6 @@ public class Tatat extends Engine{
     }
     override public function init():void {
         FP.screen.color = 0x0;
-        //FP.screen.scale = 2;
         FP.world=new TatatWorld();
     }
 }
