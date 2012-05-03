@@ -12,6 +12,12 @@ public class TatatWorld extends World {
 
     private var _tape:Tape = new Tape();
 
+
+    private var _tapeRollTimer:Number = 0.0;
+    private const TAPE_ROLL_DELAY:Number = 0.1;
+
+    private var _board:Board = new Board();
+
     public function TatatWorld() {
         super();
         FP.console.enable();
@@ -23,7 +29,7 @@ public class TatatWorld extends World {
         _masher.layer = int.MIN_VALUE;
         add(_masher);
 
-        add(new Board());
+        add(_board);
 
         _tape.addMonster(Monster.createMonsterOfType1());
     }
@@ -31,6 +37,13 @@ public class TatatWorld extends World {
 
     override public function update():void {
         super.update();
+
+        _tapeRollTimer += FP.elapsed;
+        if (_tapeRollTimer >= TAPE_ROLL_DELAY) {
+            _tapeRollTimer =  0;
+            _tape.rollTape();
+            _board.dropFigureDown();
+        }
     }
 
 //    public function addFigure(f:Figure):void {

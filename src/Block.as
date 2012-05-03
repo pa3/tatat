@@ -82,7 +82,6 @@ public class Block extends Entity{
     public function setBoardPosition(x:int,  y:int):void {
         position.x = x+2;
         position.y = 22-y;
-        FP.log(y);
     }
     public function getBoardPosition():Point {
         return new Point(position.x-2,22 - position.y);

@@ -23,8 +23,12 @@ public class Figure extends Entity {
 
     public function Figure(blocks:Vector.<Block>, pivotBlock:Block) {
         _blocks = blocks;
-        _pivotBlockPosition.x = 3;//pivotBlock.position.x;
-        _pivotBlockPosition.y = 13;//pivotBlock.position.y;
+        _pivotBlockPosition.x = pivotBlock.getBoardPosition().x;
+        _pivotBlockPosition.y = pivotBlock.getBoardPosition().y;
+        FP.log(_pivotBlockPosition);
+
+//        _pivotBlockPosition.x = 3;//pivotBlock.position.x;
+//        _pivotBlockPosition.y = 13;//pivotBlock.position.y;
 
         for each (var b:Block in _blocks) {
             _blocksRelativePositions.push(new Point(b.position.x - pivotBlock.position.x, b.position.y - pivotBlock.position.y));
@@ -41,8 +45,9 @@ public class Figure extends Entity {
     public function moveDown():void {
         if (!performMovement(_moveDownMatrix)) {
             Registry.board.figureLanded(this);
-            Registry.tape.spawnMonster();
         }
+        FP.log(_pivotBlockPosition);
+
     }
 
     public function moveLeft():void {

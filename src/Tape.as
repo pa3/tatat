@@ -9,9 +9,8 @@ public class Tape extends Entity {
     [Embed(source="/resources/tape_n_board.png")]
     private var TapeAndBoardImage:Class;
 
-    private var _tapeRollTimer:Number = 0.0;
-    private const TAPE_ROLL_DELAY:Number = 0.5;
     private var _monsters:Vector.<Monster> = new Vector.<Monster>();
+    private var _monstersToSmash:Vector.<Monster> = new Vector.<Monster>();
     private var _monstersToDelete:Vector.<Monster> = new Vector.<Monster>();
     private var _monstersToAdd:Vector.<Monster> = new Vector.<Monster>();
 
@@ -25,38 +24,41 @@ public class Tape extends Entity {
     override public function update():void {
         super.update();
         addAndInitNewMonsters();
-        rollTape();
         getRidOfDeadMonsters();
     }
 
-    private function rollTape():void {
-        _tapeRollTimer += FP.elapsed;
-        if (_tapeRollTimer >= TAPE_ROLL_DELAY) {
-            _tapeRollTimer =  0;
-            for each (var m:Monster in _monsters) {
-                m.positionOnTape++;
-                if (m.positionOnTape > 0) {
-                    Registry.masher.smash(m);
-                }
+    public function rollTape():void {
+        for each (var m:Monster in _monsters) {
+            m.positionOnTape++;
+            if (m.positionOnTape > 0) {
+                _monstersToSmash.push(m);
+                Registry.masher.smash(m);
+                spawnMonster();
             }
-//            if (_currentFigure)
-//                _currentFigure.moveDown();
         }
+        for each (var smashed:Monster in _monstersToSmash) {
+            if (_monsters.indexOf(smashed) != -1) {
+                _monsters.splice(_monsters.indexOf(smashed), 1);
+            }
+        }
+        FP.log(_monstersToSmash.length);
+
     }
 
     private function addAndInitNewMonsters():void {
-        _monsters = _monsters.concat(_monstersToAdd);
+
         for each (var m:Monster in _monstersToAdd) {
             world.add(m);
-            m.positionOnTape = -10;
+            m.positionOnTape = -20;
         }
+        _monsters = _monsters.concat(_monstersToAdd);
         _monstersToAdd.length = 0;
     }
 
     private function getRidOfDeadMonsters():void {
         for each (var m:Monster in _monstersToDelete) {
-            if (_monsters.indexOf(m) != -1) {
-                _monsters.splice(_monsters.indexOf(m), 1);
+            if (_monstersToSmash.indexOf(m) != -1) {
+                _monstersToSmash.splice(_monstersToSmash.indexOf(m), 1);
                 world.remove(m);
             }
         }
@@ -73,8 +75,13 @@ public class Tape extends Entity {
     }
 
 
-    public function spawnMonster():void {
-
+    private function spawnMonster():void {
+        addMonster(Monster["createMonsterOfType"+randomInt(1,3)]());
     }
+    
+    private function randomInt(from:int,  to:int):int {
+        return Math.round(Math.random()*(to-from) + from);
+    }
+    
 }
 }

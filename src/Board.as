@@ -2,6 +2,7 @@ package {
 import flash.geom.Point;
 
 import net.flashpunk.Entity;
+import net.flashpunk.FP;
 import net.flashpunk.utils.Input;
 import net.flashpunk.utils.Key;
 
@@ -35,10 +36,10 @@ public class Board  extends Entity{
     }
 
     public function isPlaceFree(x:int,  y:int):Boolean {
-        if (y*WIDTH+x > WIDTH*HEIGHT) {
-            return false;
+        if (y >= HEIGHT) {
+            return true;
         }
-        return (_blocks[WIDTH*x+y] != null);
+        return (_blocks[x+WIDTH*y] == null);
     }
 
 
@@ -56,6 +57,12 @@ public class Board  extends Entity{
         for each (var b:Block in figure.getBlocks()) {
             var position:Point = b.getBoardPosition();
             _blocks[int(position.x)+WIDTH*int(position.y)] = b;
+        }
+    }
+
+    public function dropFigureDown():void {
+        if (_currentFigure) {
+            _currentFigure.moveDown();
         }
     }
 }
