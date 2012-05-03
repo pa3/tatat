@@ -42,7 +42,6 @@ public class Board  extends Entity{
         return (_blocks[x+WIDTH*y] == null);
     }
 
-
     override public function update():void {
         super.update();
         applyInputs();
