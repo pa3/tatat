@@ -15,7 +15,7 @@
     <content url="file://$MODULE_DIR$/../thirdparty/flashpunk">
       <sourceFolder url="file://$MODULE_DIR$/../thirdparty/flashpunk" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="fsdk (player 10.2)" jdkType="Flex SDK Type" />
+    <orderEntry type="jdk" jdkName="fsdk4_5 (player 10.2)" jdkType="Flex SDK Type" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
