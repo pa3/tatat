@@ -64,11 +64,11 @@ public class Monster extends Entity{
     }
 
     public static function createMonsterOfType2():Monster {
-        return new Monster(11, 8, monster2PixelsMap, BlockColor.BLUE, Vector.<int>([24,25,26,36]),26);
+        return new Monster(11, 8, monster2PixelsMap, BlockColor.BLUE, Vector.<int>([24,25,26,36]),25);
     }
 
     public static function createMonsterOfType3():Monster {
-        return new Monster(12, 8, monster3PixelsMap, BlockColor.GREEN, Vector.<int>([42,43,48,49]),43);
+        return new Monster(12, 8, monster3PixelsMap, BlockColor.GREEN, Vector.<int>([42,43,48,49]),42);
     }
 
     public function Monster(width:int, height:int, pixelsMap:Vector.<int>, color:BlockColor, figureBlocksIndexes:Vector.<int>, pivotBlockIndex:int) {

@@ -2,6 +2,9 @@ package {
 import flash.geom.Matrix;
 import flash.geom.Point;
 import net.flashpunk.Entity;
+import net.flashpunk.FP;
+
+import org.osmf.layout.PaddingLayoutMetadata;
 
 public class Figure extends Entity {
 
@@ -56,13 +59,18 @@ public class Figure extends Entity {
         var newRelativePositions:Vector.<Point> = new Vector.<Point>(_blocksRelativePositions.length);
         for (var i:int = 0; i < _blocksRelativePositions.length; i++) {
             newRelativePositions[i] = _rotationMatrix.transformPoint(_blocksRelativePositions[i]);
-            newRelativePositions[i].x = int(newRelativePositions[i].x);
-            newRelativePositions[i].y = int(newRelativePositions[i].y);
+            newRelativePositions[i].x = Math.round(newRelativePositions[i].x);
+            newRelativePositions[i].y = Math.round(newRelativePositions[i].y);
         }
         if (isBlocksPositionOk(_pivotBlockPosition, newRelativePositions)) {
             updateBlocksPositions(_pivotBlockPosition, newRelativePositions);
             _blocksRelativePositions = newRelativePositions;
         }
+        var logString:String = "";
+        for each (var block:Point in _blocksRelativePositions) {
+            logString += " " + block;
+        }
+        FP.log(logString);
     }
 
     public function getBlocks():Vector.<Block> {

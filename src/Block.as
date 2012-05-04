@@ -91,7 +91,10 @@ public class Block extends Entity{
         return _position;
     }
 
-    public function startFalling(newVelocity:Vector3D):void {
+    public function startFalling(newVelocity:Vector3D = null):void {
+        if (newVelocity == null) {
+            newVelocity = new Vector3D(Math.random() * 2 - 1, Math.random() * 1 + 12, Math.random() * 1 - 2);
+        }
         state = BlockState.FREE_MODE;
         velocity = newVelocity.clone();
     }

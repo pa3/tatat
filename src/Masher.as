@@ -83,7 +83,7 @@ public class Masher extends Entity {
         Registry.board.addFigure(smashedMonster.figure);
         Registry.tape.removeMonster(_monsterToSmash);
         for each (var aBlock:Block in smashedMonster.splinters) {
-            aBlock.startFalling(new Vector3D(Math.random() * 2 - 1, Math.random() * 1 + 12, Math.random() * 1 - 2));
+            aBlock.startFalling();
         }
     }
 

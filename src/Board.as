@@ -19,18 +19,15 @@ public class Board  extends Entity{
 
     private function applyInputs():void {
         if (_currentFigure) {
-            if (Input.pressed(Key.LEFT)) {
+
+            if (Registry.input.triggered(Key.LEFT)) {
                 _currentFigure.moveLeft();
             }
-            if (Input.pressed(Key.RIGHT)) {
+            if (Registry.input.triggered(Key.RIGHT)) {
                 _currentFigure.moveRight();
             }
-            if (Input.pressed(Key.DOWN)) {
-                _currentFigure.moveDown();
-            }
-            if (Input.pressed(Key.UP)) {
+            if (Registry.input.triggered(Key.UP)) {
                 _currentFigure.rotate()
-                //_currentFigure.rotate();
             }
         }
     }
@@ -47,19 +44,44 @@ public class Board  extends Entity{
         applyInputs();
     }
 
+    private function checkForFilledLines():void {
+
+        for (var i:int = 0; i < HEIGHT; i++) {
+            if (isLineFilled(i)) {
+                for (var j:int = 0; j < WIDTH; j++) {
+                    _blocks[i*WIDTH+j].startFalling()
+                    _blocks[i*WIDTH+j] = null;
+                }
+            }
+        }
+    }
+
+    private function isLineFilled(lineNumber:int):Boolean {
+        var filled:Boolean = true;
+        for (var j:int = 0; j < WIDTH; j++) {
+            if (_blocks[lineNumber*WIDTH+j] == null) {
+                filled = false;
+                break;
+            }
+        }
+        return filled;
+    }
+
     public function addFigure(figure:Figure):void {
         _currentFigure = figure;
     }
 
     public function figureLanded(figure:Figure):void {
         _currentFigure = null;
+        // TODO: if figure is out of the board - go to game over state
         for each (var b:Block in figure.getBlocks()) {
             var position:Point = b.getBoardPosition();
             _blocks[int(position.x)+WIDTH*int(position.y)] = b;
         }
+        checkForFilledLines();
     }
 
-    public function dropFigureDown():void {
+    public function moveCurrentFigureDown():void {
         if (_currentFigure) {
             _currentFigure.moveDown();
         }
