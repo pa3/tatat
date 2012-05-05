@@ -16,28 +16,11 @@ public class Block extends Entity{
     private var _movement:Vector3D = new Vector3D();
     private const GRAVITY:Number = 20;
 
-    [Embed(source="/resources/red_block.png")]
-    private static var RedBlockImage:Class;
-    [Embed(source="/resources/blue_block.png")]
-    private static var BlueBlockImage:Class;
-    [Embed(source="/resources/green_block.png")]
-    private static var GreenBlockImage:Class;
 
     private var state:BlockState = BlockState.PART_OF_THE_MONSTER;
 
     public static function createBlock(color:BlockColor, boardX:int,  boardY:int,  boardZ:int):Block {
-        switch (color) {
-            case BlockColor.RED:
-                return new Block(new Image(RedBlockImage), boardX, boardY, boardZ);
-                break;
-            case BlockColor.GREEN:
-                return new Block(new Image(GreenBlockImage), boardX, boardY, boardZ);
-                break;
-            case BlockColor.BLUE:
-                return new Block(new Image(BlueBlockImage), boardX, boardY, boardZ);
-                break;
-        }
-        return null;
+			return new Block(new Image(color.spriteClass), boardX, boardY, boardZ);
     }
 
     public function Block(skin:Image, boardX:int, boardY:int, boardZ:int) {

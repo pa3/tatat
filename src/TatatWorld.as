@@ -32,12 +32,12 @@ public class TatatWorld extends World {
         add(_board);
         add(_input);
 		var temp:Vector.<Block> = new Vector.<Block>();
-		for (var i:int = 0; i < TatatLabel.TATAT_TITLE.amountOfVoxels; i ++) {
-			var block:Block = Block.createBlock(BlockColor.RED, 0,0,0);
+		for (var i:int = 0; i < TatatLabel.GAME_OVER_LABEL.amountOfVoxels; i ++) {
+			var block:Block = Block.createBlock(BlockColor.randomColor, 0,0,0);
 			temp.push(block);
 			add(block);
 		}
-		add(new TatatLabelRenderer(TatatLabel.TATAT_TITLE, new Vector3D(14,-2,10), temp));
+		add(new TatatLabelRenderer(TatatLabel.GAME_OVER_LABEL, new Vector3D(14,-2,10), temp));
         _tape.addMonster(Monster.createMonsterOfType3());
     }
 
