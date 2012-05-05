@@ -1,8 +1,6 @@
 package {
 import flash.geom.Vector3D;
 
-import mx.printing.FlexPrintJob;
-
 import net.flashpunk.Entity;
 import net.flashpunk.FP;
 import net.flashpunk.graphics.Image;

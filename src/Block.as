@@ -3,8 +3,6 @@ import flash.geom.Matrix3D;
 import flash.geom.Point;
 import flash.geom.Vector3D;
 
-import mx.printing.FlexPrintJob;
-
 import net.flashpunk.Entity;
 import net.flashpunk.FP;
 import net.flashpunk.graphics.Image;
@@ -89,6 +87,10 @@ public class Block extends Entity{
 
     public function get position():Vector3D {
         return _position;
+    }
+
+    public function set position(value:Vector3D):void {
+        _position = value.clone();
     }
 
     public function startFalling(newVelocity:Vector3D = null):void {

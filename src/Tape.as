@@ -76,12 +76,9 @@ public class Tape extends Entity {
 
 
     private function spawnMonster():void {
-        addMonster(Monster["createMonsterOfType"+randomInt(1,3)]());
+        addMonster(Monster["createMonsterOfType"+MathUtil.randomInt(1,3)]());
     }
     
-    private function randomInt(from:int,  to:int):int {
-        return Math.round(Math.random()*(to-from) + from);
-    }
-    
+
 }
 }

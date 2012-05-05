@@ -4,8 +4,6 @@ import flash.geom.Point;
 import net.flashpunk.Entity;
 import net.flashpunk.FP;
 
-import org.osmf.layout.PaddingLayoutMetadata;
-
 public class Figure extends Entity {
 
     private var _blocks:Vector.<Block>;
@@ -113,5 +111,9 @@ public class Figure extends Entity {
         }
         return true;
     }
+
+	public function isOutOfDaBorad():Boolean {
+		return !isBlocksPositionOk(_pivotBlockPosition, _blocksRelativePositions);
+	}
 }
 }
