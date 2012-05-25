@@ -9,15 +9,12 @@ import net.flashpunk.graphics.Image;
 
 public class Block extends Entity{
 
-    private var camera:Camera = null;
+	private const GRAVITY:Number = 20;
 
+    private var _camera:Camera = null;
     private var _position:Vector3D;
-    private var velocity:Vector3D = new Vector3D();
-    private var _movement:Vector3D = new Vector3D();
-    private const GRAVITY:Number = 20;
-
-
-    private var state:BlockState = BlockState.PART_OF_THE_MONSTER;
+    private var _velocity:Vector3D = new Vector3D();
+	private var _isFalling:Boolean = false;
 
     public static function createBlock(color:BlockColor, boardX:int,  boardY:int,  boardZ:int):Block {
 			return new Block(new Image(color.spriteClass), boardX, boardY, boardZ);
@@ -26,35 +23,27 @@ public class Block extends Entity{
     public function Block(skin:Image, boardX:int, boardY:int, boardZ:int) {
         _position = new Vector3D(boardX, boardY, boardZ, 0);
         graphic = skin;
-        camera = TatatWorld._camera;
+        _camera = TatatWorld._camera;
     }
-
 
     override public function update():void {
-        super.update();
+		super.update();
 
-        switch (state) {
-            case BlockState.PART_OF_THE_MONSTER:
-                break;
-            case BlockState.FREE_MODE:
-                velocity.y += FP.elapsed*GRAVITY;
-                _movement.x = velocity.x;
-                _movement.y = velocity.y;
-                _movement.z = velocity.z;
-                _movement.scaleBy(FP.elapsed);
-                _position = position.add(_movement);
-                break;
-        }
+		if (_isFalling) {
+			_velocity.y += FP.elapsed*GRAVITY;
+			var movement:Vector3D = _velocity.clone();
+			movement.scaleBy(FP.elapsed);
+			_position = position.add(movement);
+		}
 
-        
-        var cameraSpacePosition:Vector3D = camera.worldPositionToScreenPoint(position);
-        x = cameraSpacePosition.x + 238;
-        y = cameraSpacePosition.y + 94;
+		var cameraSpacePosition:Vector3D = _camera.worldPositionToScreenPoint(position);
+		x = cameraSpacePosition.x + 238;
+		y = cameraSpacePosition.y + 94;
 
-        // closest blocks should be drawn last
-        layer = -cameraSpacePosition.z;
+		// closest blocks should be drawn last
+		layer = -cameraSpacePosition.z;
 
-    }
+	}
 
     public function setTapePosition(z:int):void {
         position.z = z;
@@ -80,8 +69,9 @@ public class Block extends Entity{
         if (newVelocity == null) {
             newVelocity = new Vector3D(Math.random() * 2 - 1, Math.random() * 1 + 12, Math.random() * 1 - 2);
         }
-        state = BlockState.FREE_MODE;
-        velocity = newVelocity.clone();
+		_isFalling = true;
+        _velocity = newVelocity.clone();
+		Registry.blocksCollector.monitorBlock(this);
     }
 }
 }

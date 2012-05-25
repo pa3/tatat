@@ -12,9 +12,6 @@ public class Masher extends Entity {
     [Embed(source="/resources/masher.png")]
     private var MasherImage:Class;
 
-    private var state:MasherState = MasherState.WAITING;
-    private var currentSpeed:Number = 0.0;
-
     private const MOVE_DOWN_INITIAL_VELOCITY:Number = 500;
     private const MOVE_DOWN_ACCELERATION:Number = 5000;
     private const MOVE_UP_VELOCITY:Number = -250;
@@ -22,24 +19,22 @@ public class Masher extends Entity {
     private const BOTTOM_POSITION_Y:int = 40;
     private const UPPER_POSITION_Y:int = -50;
 
-    private var _monstersHolder:TatatWorld;
-
+	private var _state:MasherState = MasherState.WAITING;
+	private var _currentSpeed:Number = 0.0;
     private var _monsterToSmash:Monster;
     private var _movingDownTimer:Number;
-    
     private var _monsterDestroyed:Boolean = false;
 
-    public function Masher(monstersHolder:TatatWorld) {
-        _monstersHolder = monstersHolder;
-        graphic = new Image(MasherImage);
-        y = UPPER_POSITION_Y;
-        Registry.masher = this;
-    }
+    public function Masher() {
+		graphic = new Image(MasherImage);
+		y = UPPER_POSITION_Y;
+		Registry.masher = this;
+	}
 
     public function smash(monsterToSmash:Monster):void {
-        if (state == MasherState.WAITING) {
-            state = MasherState.MOVING_DOWN;
-            currentSpeed = MOVE_DOWN_INITIAL_VELOCITY;
+        if (_state == MasherState.WAITING) {
+            _state = MasherState.MOVING_DOWN;
+            _currentSpeed = MOVE_DOWN_INITIAL_VELOCITY;
             _movingDownTimer = 0;
             _monsterToSmash = monsterToSmash;
             _monsterDestroyed = false;
@@ -50,26 +45,26 @@ public class Masher extends Entity {
     override public function update():void {
         super.update();
 
-        y += FP.elapsed * currentSpeed;
+        y += FP.elapsed * _currentSpeed;
 
-        switch (state) {
+        switch (_state) {
             case MasherState.MOVING_DOWN:
-                currentSpeed += FP.elapsed * MOVE_DOWN_ACCELERATION;
+                _currentSpeed += FP.elapsed * MOVE_DOWN_ACCELERATION;
                 _movingDownTimer += FP.elapsed;
                 if (isTimeToSmash()) {
                     smashMonster();
                 }
                 if (y > BOTTOM_POSITION_Y) {
                     y = BOTTOM_POSITION_Y;
-                    currentSpeed = MOVE_UP_VELOCITY;
-                    state = MasherState.MOVING_UP;
+                    _currentSpeed = MOVE_UP_VELOCITY;
+                    _state = MasherState.MOVING_UP;
                 }
                 break;
             case MasherState.MOVING_UP:
                 if (y < UPPER_POSITION_Y) {
-                    currentSpeed = 0.0;
+                    _currentSpeed = 0.0;
                     y = UPPER_POSITION_Y;
-                    state = MasherState.WAITING;
+                    _state = MasherState.WAITING;
                 }
                 break;
         }

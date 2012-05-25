@@ -13,5 +13,9 @@ public class MathUtil {
             return from.add(distance);
         }
 
+        public static function numbresLerp(from:Number, to:Number, amt:Number) {
+            return from + amt*(to-from);
+        }
+
 	}
 }

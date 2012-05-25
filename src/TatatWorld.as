@@ -3,7 +3,8 @@ package {
 
 	import net.flashpunk.FP;
 import net.flashpunk.World;
-import net.flashpunk.utils.Input;
+	import net.flashpunk.graphics.Text;
+	import net.flashpunk.utils.Input;
 import net.flashpunk.utils.Key;
 
 public class TatatWorld extends World {
@@ -22,27 +23,15 @@ public class TatatWorld extends World {
 
     public function TatatWorld() {
         super();
-        FP.console.enable();
         add(_camera);
         add(_tape);
-        _masher = new Masher(this);
+        _masher = new Masher();
         _masher.x = 160;
         _masher.layer = int.MIN_VALUE;
         add(_masher);
         add(_board);
         add(_input);
-		var temp:Vector.<Block> = new Vector.<Block>();
-		for (var i:int = 0; i < TatatLabel.TATAT_TITLE.amountOfVoxels; i ++) {
-			var block:Block = Block.createBlock(BlockColor.randomColor, 0,0,0);
-            block.position.x = MathUtil.randomInt(-50,50);
-            block.position.y = MathUtil.randomInt(-50,50);
-            block.position.z = MathUtil.randomInt(-50,50);
-			temp.push(block);
-			add(block);
-		}
-        var renderer:TatatLabelRenderer = new TatatLabelRenderer(TatatLabel.TATAT_TITLE, new Vector3D(14,-2,10), temp);
-        renderer.startBuildUpAnimation(1);
-        add(renderer);
+		add(new FallenBlocksCollector());
         _tape.addMonster(Monster.createMonsterOfType3());
     }
 

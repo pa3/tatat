@@ -22,9 +22,6 @@ public class Figure extends Entity {
         _pivotBlockPosition.y = pivotBlock.getBoardPosition().y;
         FP.log(_pivotBlockPosition);
 
-//        _pivotBlockPosition.x = 3;//pivotBlock.position.x;
-//        _pivotBlockPosition.y = 13;//pivotBlock.position.y;
-
         for each (var b:Block in _blocks) {
             _blocksRelativePositions.push(new Point(b.position.x - pivotBlock.position.x, b.position.y - pivotBlock.position.y));
         }
