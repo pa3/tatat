@@ -7,7 +7,6 @@ package {
 	public class TatatLabelRenderer extends Entity {
 
 		private var _blocks:Vector.<Block>;
-		private var _label:TatatLabel;
 		private var _blocksFinalPositions:Vector.<Vector3D>;
 		private var _blocksInitialPosition:Vector.<Vector3D>;
 		private var _animationElapsedTime:Number;
@@ -15,18 +14,17 @@ package {
 		private var _isAnimating:Boolean;
 
 		public function TatatLabelRenderer(label:TatatLabel, leftTopPoint:Vector3D, blocks:Vector.<Block>) {
-			_label = label;
-			if (blocks.length != _label.amountOfVoxels) {
-				throw new Error("Need " + _label.amountOfVoxels + " blocks to build label, but " + blocks.length + " have been passed.")
+			if (blocks.length != label.amountOfVoxels) {
+				throw new Error("Need " + label.amountOfVoxels + " blocks to build label, but " + blocks.length + " have been passed.")
 			}
 			_blocks = blocks.concat();
 			_blocksFinalPositions = new Vector.<Vector3D>();
 
-			var width:int = _label.width;
-			var height:int = _label.height;
+			var width:int = label.width;
+			var height:int = label.height;
 			for (var i:int = 0; i < height; i++) {
 				for (var j:int = 0; j < width; j++) {
-					if (_label.text[i*width + j] != 0) {
+					if (label.text[i*width + j] != 0) {
 						_blocksFinalPositions.push(leftTopPoint.add(new Vector3D(-j, i, 0)));
 					}
 				}
@@ -42,13 +40,13 @@ package {
 			}
 		}
 
-		public function startBuildUpAnimation(animationTime:Number) {
+		public function startBuildUpAnimation(animationTime:Number):void {
 			_animationElapsedTime = 0;
 			_animationDuration = animationTime;
 			_isAnimating = true;
 		}
 
-		public function startBreakApartAnimation(animationTime:Number) {
+		public function startBreakApartAnimation(animationTime:Number):void {
 			setInitialPositionsFromCurrent();
 			randomizeFinalPositions();
 			_animationElapsedTime = 0;
@@ -58,8 +56,10 @@ package {
 
 		private function randomizeFinalPositions():void {
 			for each(var position:Vector3D in _blocksFinalPositions) {
-				position.x = MathUtil.randomInt(-50, 50);
-				position.y = MathUtil.randomInt(-50, 50);
+				position.x = MathUtil.randomInt(50, 60);
+				position.y = MathUtil.randomInt(50, 60);
+				position.x *= MathUtil.randomInt(0,1) == 1 ? -1 : 1;
+				position.y *= MathUtil.randomInt(0,1) == 1 ? -1 : 1;
 				position.z = MathUtil.randomInt(-50, 50);
 			}
 		}

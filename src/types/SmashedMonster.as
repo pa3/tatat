@@ -13,16 +13,9 @@ public class SmashedMonster {
         return _figure;
     }
 
-    public function set figure(value:Figure):void {
-        _figure = value;
-    }
-
     public function get splinters():Vector.<Block> {
         return _splinters;
     }
 
-    public function set splinters(value:Vector.<Block>):void {
-        _splinters = value;
-    }
 }
 }

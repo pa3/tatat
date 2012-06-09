@@ -11,29 +11,27 @@ public class TatatWorld extends World {
 
     public static var _camera:Camera = new Camera();
 
-    private var _masher:Masher;
-
     private var _tape:Tape = new Tape();
 
     private var _tapeRollTimer:Number = 0.0;
-    private const TAPE_ROLL_DELAY:Number = 0.8;
+
 
     private var _board:Board = new Board();
     private var _input:TatatInput = new TatatInput();
 
     public function TatatWorld() {
-        super();
-        add(_camera);
-        add(_tape);
-        _masher = new Masher();
-        _masher.x = 160;
-        _masher.layer = int.MIN_VALUE;
-        add(_masher);
-        add(_board);
-        add(_input);
+		super();
+		add(_camera);
+		add(_tape);
+		var masher:Masher = new Masher();
+		masher.x = 160;
+		masher.layer = int.MIN_VALUE;
+		add(masher);
+		add(_board);
+		add(_input);
 		add(new FallenBlocksCollector());
-        _tape.addMonster(Monster.createMonsterOfType3());
-    }
+		_tape.addMonster(Monster.createMonster(5));
+	}
 
 
     override public function update():void {
@@ -41,7 +39,7 @@ public class TatatWorld extends World {
         applyInput();
 
         _tapeRollTimer += FP.elapsed;
-        if (_tapeRollTimer >= TAPE_ROLL_DELAY) {
+        if (_tapeRollTimer >= Registry.tapeRollDelay) {
             _tapeRollTimer =  0;
             _tape.rollTape();
             _board.moveCurrentFigureDown();

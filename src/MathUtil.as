@@ -7,13 +7,13 @@ public class MathUtil {
 			return Math.round(Math.random()*(to - from) + from);
 		}
 
-        public static function vectorsLerp(from:Vector3D, to:Vector3D, amt:Number) {
+        public static function vectorsLerp(from:Vector3D, to:Vector3D, amt:Number):Vector3D {
             var distance:Vector3D = to.subtract(from);
             distance.scaleBy(amt);
             return from.add(distance);
         }
 
-        public static function numbresLerp(from:Number, to:Number, amt:Number) {
+        public static function numbresLerp(from:Number, to:Number, amt:Number):Number {
             return from + amt*(to-from);
         }
 

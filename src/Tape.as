@@ -74,9 +74,12 @@ public class Tape extends Entity {
         _monstersToDelete.push(m);
     }
 
+	public function getMonstersOnTape():Vector.<Monster> {
+		return _monsters;
+	}
 
     private function spawnMonster():void {
-        addMonster(Monster["createMonsterOfType"+MathUtil.randomInt(1,3)]());
+        addMonster(Monster.createMonster(MathUtil.randomInt(0,5)));
     }
     
 

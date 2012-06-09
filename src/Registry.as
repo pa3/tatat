@@ -5,5 +5,7 @@ public class Registry {
     public static var tape:Tape;
     public static var input:TatatInput;
 	public static var blocksCollector:FallenBlocksCollector;
+	//public static var tapeRollDelay:Number = 0.8;
+	public static var tapeRollDelay:Number = 0.8;
 }
 }

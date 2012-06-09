@@ -10,7 +10,6 @@ package {
 		private const FONT_SIZE:int = 20;
 
 		private var _markerView:Graphic;
-		private var _textView:TatatText;
 		private var _selectCallback:Function;
 		private var _selected:Boolean;
 		private var _justSelected:Boolean;
@@ -22,10 +21,10 @@ package {
 			this.y = y;
 			this._selectCallback = selectCallback;
 			_markerView = new Text(">", -(int)(0.8*FONT_SIZE), -(int)(0.3*FONT_SIZE), {size:FONT_SIZE});
-			_textView = new TatatText(text, FONT_SIZE);
+			var textView:TatatText = new TatatText(text, FONT_SIZE);
 			selected = false;
 			addGraphic(_markerView);
-			addGraphic(_textView);
+			addGraphic(textView);
 		}
 
 		public function set selected(value:Boolean):void {
